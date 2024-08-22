@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Clients\BooksClient\BooksClientInterface;
 use App\Http\Requests\ReviewPostRequest;
+use App\Services\ReviewService;
 
 class ReviewController extends Controller
 {
-    public function store(ReviewPostRequest $request, BooksClientInterface $booksClient)
+    public function store(ReviewPostRequest $request, ReviewService $service)
     {
-        /*{
-            "work_id": "",
-             "review": "text",
-            "score": 6
-        }*/
-
-        $response = $booksClient->fetchWork($request->work_id);
+        $response = $service->getReview($request->work_id);
 
         return response()->json([
             'data' => $response,

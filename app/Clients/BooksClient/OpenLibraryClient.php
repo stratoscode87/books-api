@@ -3,6 +3,7 @@
 namespace App\Clients\BooksClient;
 
 use App\Clients\BooksClient\Exceptions\OpenLibraryNotReachableException;
+use App\Clients\BooksClient\Exceptions\WorkNotFoundException;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
@@ -57,6 +58,10 @@ class OpenLibraryClient implements BooksClientInterface
             $response = Http::get($endpoint)->object();
         } catch (\Exception) {
             throw new OpenLibraryNotReachableException('Open library is not reachable, please try again later.');
+        }
+
+        if (isset($response->error) && $response->error === 'notfound') {
+            throw new WorkNotFoundException('Work ID not found.');
         }
 
         return $response;

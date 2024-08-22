@@ -11,7 +11,4 @@ Route::get('/welcome', function (Request $request) {
 
 Route::get('/search', [\App\Http\Controllers\BooksController::class, 'search']);
 
-
-/*Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');*/
+Route::post('/review', [\App\Http\Controllers\ReviewController::class, 'store']);

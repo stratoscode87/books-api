@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Clients\BooksClient\BooksClientInterface;
-use App\Clients\BooksClient\OpenLibraryClient;
+use App\Clients\BooksClient\OpenLibraryClient\OpenLibraryClient;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->bind(BooksClientInterface::class, fn () => new OpenLibraryClient());
+        $this->app->bind(BooksClientInterface::class, fn () => new OpenLibraryClient);
     }
 }

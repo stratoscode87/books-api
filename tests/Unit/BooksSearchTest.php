@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Clients\BooksClient\Exceptions\OpenLibraryNotReachableException;
-use App\Clients\BooksClient\OpenLibraryClient;
+use App\Clients\BooksClient\OpenLibraryClient\Exceptions\OpenLibraryNotReachableException;
+use App\Clients\BooksClient\OpenLibraryClient\OpenLibraryClient;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Promise\RejectedPromise;
 use Illuminate\Support\Facades\Http;

@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Clients\BooksClient\Exceptions;
+namespace App\Clients\BooksClient\OpenLibraryClient\Exceptions;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class OpenLibraryNotReachableException extends Exception
 {
-    public function __construct(public $message = 'Ops! Something went wrong', public $code = 500)
-    {}
+    public function __construct(public $message = 'Ops! Something went wrong', public $code = 500) {}
 
     public function render(): JsonResponse
     {

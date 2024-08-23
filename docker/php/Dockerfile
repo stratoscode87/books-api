@@ -18,7 +18,9 @@ RUN apt-get update && apt-get install -y \
     curl \
     libonig-dev \
     libzip-dev \
-    libgd-dev
+    libgd-dev \
+    supervisor
+
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -28,10 +30,17 @@ RUN docker-php-ext-configure gd --with-external-gd
 RUN docker-php-ext-install gd
 
 # Install PECL extensions
-RUN pecl install redis
+RUN pecl install redis \
+&& rm -rf /tmp/pear \
+&& docker-php-ext-enable redis
 
 # Install Composer
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
+
+##Setup supervisord
+#RUN mkdir -p /var/www/storage/logs/
+#COPY ./docker/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+#CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 # Add unprivileged user
 ARG user=www

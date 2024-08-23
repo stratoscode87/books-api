@@ -16,6 +16,7 @@ services:
         networks:
             - books-network
         depends_on:
+            - redis
             - db
 
     #Nginx Service
@@ -72,6 +73,13 @@ services:
             - books-network
         depends_on:
             - db
+
+    redis:
+        image: redis
+        ports:
+            - "6379:6379"
+        networks:
+            - books-network
 
 networks:
     books-network:

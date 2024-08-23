@@ -9,10 +9,10 @@ class ReviewController extends Controller
 {
     public function store(ReviewPostRequest $request, ReviewService $service)
     {
-        $response = $service->getReview($request->work_id);
+        $service->postReview($request->validated());
 
         return response()->json([
-            'data' => $response,
-        ]);
+            'status' => 'processing...',
+        ], 202);
     }
 }

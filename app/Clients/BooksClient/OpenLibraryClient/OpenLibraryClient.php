@@ -86,7 +86,11 @@ class OpenLibraryClient implements BooksClientInterface
         $authors = '';
         foreach ($workData->authors as $author) {
             $authorName = $this->authorNameFromWorkAuthor($author->author->key);
-            $authors = "$authors, $authorName";
+            if (empty($authors)) {
+                $authors = "$authorName";
+            } else {
+                $authors = "$authors, $authorName";
+            }
         }
 
         //set $authors as null if is an empty string

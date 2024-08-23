@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('authors')->nullable();
             $table->text('work_id');
             $table->enum('status', ['processing', 'completed', 'error'])->default('processing');
-            $table->date('published_at')->nullable();
             $table->timestamps();
         });
     }

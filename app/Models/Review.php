@@ -13,5 +13,9 @@ class Review extends Model
         'work_id',
         'score',
         'review',
+        'authors',
+        'title',
+        'description',
+        'cover_img',
     ];
 }

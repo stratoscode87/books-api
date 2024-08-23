@@ -60,17 +60,14 @@ class OpenLibraryClient implements BooksClientInterface
     }
 
     /**
-     * @throws OpenLibraryNotReachableException|WorkNotFoundException
+     * @throws OpenLibraryNotReachableException
+     * @throws WorkNotFoundException
      */
     public function fetchWork(string $workId): object
     {
         $endpoint = $this->origin.'/works/'.$workId.'.json';
 
-        try {
-            $response = Http::get($endpoint)->object();
-        } catch (\Exception) {
-            throw new OpenLibraryNotReachableException('Open library is not reachable, please try again later.');
-        }
+        $response = $this->getRequest($endpoint);
 
         if (isset($response->error) && $response->error === 'notfound') {
             throw new WorkNotFoundException('Work ID not found.');
@@ -79,10 +76,28 @@ class OpenLibraryClient implements BooksClientInterface
         return $response;
     }
 
-    public function reviewData(object $workData, string $imageSize): array
+    /**
+     * @throws OpenLibraryNotReachableException
+     * @throws AuthorNotFoundException
+     */
+    public function reviewData(object $workData, CoverSize $imageSize): array
     {
         $coverUrl = $this->coverUrlFromId($workData?->covers[0], $imageSize);
+        $authors = '';
+        foreach ($workData->authors as $author) {
+            $authorName = $this->authorNameFromWorkAuthor($author->author->key);
+            $authors = "$authors, $authorName";
+        }
 
+        //set $authors as null if is an empty string
+        $authors = empty($authors) ? null : $authors;
+
+        return [
+            'title' => $workData->title,
+            'description' => $workData->description,
+            'authors' => $authors,
+            'cover_img' => $coverUrl,
+        ];
     }
 
     private function normalizeKeywords(string $keywords): string
@@ -100,16 +115,22 @@ class OpenLibraryClient implements BooksClientInterface
         return $this->origin."/b/id/$coverId-$size->value.json";
     }
 
-    private function authorsFromId(string $authorId): string
+    /**
+     * @throws AuthorNotFoundException
+     * @throws OpenLibraryNotReachableException
+     */
+    private function authorNameFromWorkAuthor(string $authorId): string
     {
+        $authorId = str_replace('/authors/', '', $authorId);
+
         $endpoint = $this->origin.'/authors/'.$authorId.'.json';
 
         $response = $this->getRequest($endpoint);
 
         if (isset($response->error) && $response->error === 'notfound') {
-            throw new AuthorNotFoundException('Work ID not found.');
+            throw new AuthorNotFoundException('Author ID not found.');
         }
 
-        return $response->object();
+        return $response->name;
     }
 }

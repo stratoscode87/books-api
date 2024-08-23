@@ -15,7 +15,7 @@ class OpenBookResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'work_id' => str_replace( '/works/', '', $this->key),
+            'work_id' => str_replace('/works/', '', $this->key),
             'title' => $this->title,
             'authors' => $this->author_name,
         ];

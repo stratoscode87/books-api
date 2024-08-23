@@ -17,7 +17,7 @@ class ReviewService
         //Save request on DB if work_id exists
         $reviewId = $this->saveReviewRequest($validatedReview);
         //Fetch and save full data
-        ProcessReviewInfo::dispatch($reviewId, $validatedReview['work_id'], $response);
+        ProcessReviewInfo::dispatch($reviewId, $response);
 
         return $reviewId;
     }

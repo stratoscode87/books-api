@@ -20,7 +20,6 @@ class ReviewFactory extends Factory
             'description' => $this->faker->text(),
             'authors' => $this->faker->word(),
             'status' => $this->faker->word(),
-            'publishedAt' => Carbon::now(),
         ];
     }
 }

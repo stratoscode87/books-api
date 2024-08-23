@@ -36,6 +36,7 @@ return [
     ],
     'openlibrary' => [
         'url' => env('OPENLIBRARY_URL'),
-    ]
+        'cover_url' => env('OPENLIBRARY_COVER_URL'),
+    ],
 
 ];

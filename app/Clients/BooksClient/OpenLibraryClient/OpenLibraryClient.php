@@ -20,14 +20,22 @@ class OpenLibraryClient implements BooksClientInterface
 
     private string $origin;
 
+    private string $coverOrigin;
+
     public function __construct()
     {
         $this->origin = Config::get('services.openlibrary.url');
+        $this->coverOrigin = Config::get('services.openlibrary.cover_url');
     }
 
     public function getUrl()
     {
         return $this->origin;
+    }
+
+    public function getCoverUrl()
+    {
+        return $this->coverOrigin;
     }
 
     /**
@@ -116,7 +124,7 @@ class OpenLibraryClient implements BooksClientInterface
 
     private function coverUrlFromId(string $coverId, CoverSize $size): string
     {
-        return $this->origin."/b/id/$coverId-$size->value.json";
+        return $this->coverOrigin."b/id/$coverId-$size->value.jpg";
     }
 
     /**

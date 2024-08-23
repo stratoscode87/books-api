@@ -29,6 +29,9 @@ class ProcessReviewInfo implements ShouldQueue
 
         $review = Review::find($this->id);
 
-        $review->update($reviewData);
+        $review->update([
+            ...$reviewData,
+            'status' => 'completed',
+        ]);
     }
 }

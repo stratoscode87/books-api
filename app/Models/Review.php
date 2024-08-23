@@ -17,5 +17,6 @@ class Review extends Model
         'title',
         'description',
         'cover_img',
+        'status',
     ];
 }

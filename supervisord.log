@@ -1,0 +1,30 @@
+2024-08-23 21:31:00,640 INFO supervisord started with pid 1
+2024-08-23 21:31:01,643 INFO spawned: 'laravel-worker_00' with pid 7
+2024-08-23 21:31:01,646 INFO spawned: 'laravel-worker_01' with pid 8
+2024-08-23 21:31:02,648 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2024-08-23 21:31:02,648 INFO success: laravel-worker_01 entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2024-08-23 21:31:35,682 WARN received SIGQUIT indicating exit request
+2024-08-23 21:31:35,683 INFO waiting for laravel-worker_00, laravel-worker_01 to die
+2024-08-23 21:31:35,695 INFO stopped: laravel-worker_00 (exit status 0)
+2024-08-23 21:31:35,695 INFO stopped: laravel-worker_01 (exit status 0)
+2024-08-23 21:42:38,344 INFO supervisord started with pid 1
+2024-08-23 21:42:39,348 INFO spawned: 'laravel-worker_00' with pid 7
+2024-08-23 21:42:39,350 INFO spawned: 'laravel-worker_01' with pid 8
+2024-08-23 21:42:40,352 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2024-08-23 21:42:40,353 INFO success: laravel-worker_01 entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2024-08-23 21:43:43,421 WARN received SIGQUIT indicating exit request
+2024-08-23 21:43:43,421 INFO waiting for laravel-worker_00, laravel-worker_01 to die
+2024-08-23 21:43:43,428 INFO stopped: laravel-worker_00 (exit status 0)
+2024-08-23 21:43:43,428 INFO stopped: laravel-worker_01 (exit status 0)
+2024-08-23 21:44:04,249 INFO supervisord started with pid 1
+2024-08-23 21:44:05,253 INFO spawned: 'laravel-worker_00' with pid 7
+2024-08-23 21:44:05,256 INFO spawned: 'laravel-worker_01' with pid 8
+2024-08-23 21:44:05,259 INFO spawned: 'php-fpm' with pid 9
+2024-08-23 21:44:05,293 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2024-08-23 21:44:05,293 INFO success: laravel-worker_01 entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2024-08-23 21:44:06,303 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-08-23 21:48:45,413 WARN received SIGQUIT indicating exit request
+2024-08-23 21:48:45,413 INFO waiting for laravel-worker_00, laravel-worker_01, php-fpm to die
+2024-08-23 21:48:45,420 INFO stopped: php-fpm (exit status 0)
+2024-08-23 21:48:45,425 INFO stopped: laravel-worker_01 (exit status 0)
+2024-08-23 21:48:45,428 INFO stopped: laravel-worker_00 (exit status 0)

@@ -37,10 +37,13 @@ RUN pecl install redis \
 # Install Composer
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
-##Setup supervisord
-#RUN mkdir -p /var/www/storage/logs/
-#COPY ./docker/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+#Setup supervisord
+RUN mkdir -p /var/www/storage/logs/
+COPY ./docker/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 #CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
+# Copy scripts
+COPY ./docker/php/init.sh /usr/local/bin/init.sh
 
 # Add unprivileged user
 ARG user=www
@@ -53,6 +56,9 @@ RUN mkdir -p /home/$user/.composer && \
 
 # Change current user to $user
 USER $user
+
+# Run supervisor
+ENTRYPOINT ["/bin/sh", "/usr/local/bin/init.sh"]
 
 FROM base as dev
 

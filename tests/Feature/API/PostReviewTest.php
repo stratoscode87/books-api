@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\API;
 
+use App\Clients\BooksClient\BooksClientInterface;
 use App\Clients\BooksClient\OpenLibraryClient\Exceptions\WorkNotFoundException;
 use App\Services\ReviewService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,6 +18,15 @@ class PostReviewTest extends TestCase
     public function testInitiallyHasPendingStatus(): void
     {
         Queue::fake();
+
+        $this->mock(BooksClientInterface::class, function (MockInterface $mock) {
+            $mock->shouldReceive('fetchWork')
+                ->once()
+                ->andReturn((object) [
+                    'status' => 'ok',
+                ], 200);
+        });
+
         $response = $this->postReview();
 
         $this->assertDatabaseCount('reviews', 1);

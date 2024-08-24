@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Review\ReviewGetRequest;
 use App\Http\Requests\Review\ReviewPostRequest;
 use App\Http\Requests\Review\ReviewRequest;
+use App\Http\Resources\ReviewResource;
 use App\Services\ReviewService;
 use Illuminate\Http\JsonResponse;
 
@@ -36,7 +37,7 @@ class ReviewController extends Controller
         $review = $this->service->putRequest($request->validated());
 
         return response()->json([
-            'data' => $review,
-        ], 202);
+            'data' => new ReviewResource($review),
+        ]);
     }
 }

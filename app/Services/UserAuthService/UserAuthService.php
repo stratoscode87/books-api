@@ -30,7 +30,7 @@ class UserAuthService
         return $user->createToken($user->email.'-AuthToken')->plainTextToken;
     }
 
-    public function logout()
+    public function logout(): void
     {
         auth()->user()->tokens()->delete();
     }

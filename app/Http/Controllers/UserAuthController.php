@@ -38,6 +38,8 @@ class UserAuthController extends Controller
 
     public function logout()
     {
+        $this->service->logout();
+
         return response()->json([
             'message' => 'Logged out',
         ]);

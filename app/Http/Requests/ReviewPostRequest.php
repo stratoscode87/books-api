@@ -23,7 +23,7 @@ class ReviewPostRequest extends FormRequest
     {
         return [
             'work_id' => 'required|min:4',
-            'review' => 'required|string|min:4|max:300',
+            'review' => 'required|string|min:4|max:3000',
             'score' => 'required|integer|min:1|max:10',
         ];
     }

@@ -7,10 +7,26 @@ use App\Clients\BooksClient\Enums\CoverSize;
 use App\Models\Review;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Throwable;
 
 class ProcessReviewInfo implements ShouldQueue
 {
     use Queueable;
+
+    /**
+     * The number of times the job may be attempted.
+     */
+    public int $tries = 3;
+
+    /**
+     * Calculate the number of seconds to wait before retrying the job.
+     *
+     * @return array<int, int>
+     */
+    public function backoff(): array
+    {
+        return [1, 5, 10];
+    }
 
     /**
      * Create a new job instance.
@@ -27,11 +43,19 @@ class ProcessReviewInfo implements ShouldQueue
     {
         $reviewData = $booksClient->reviewData($this->response, CoverSize::Medium);
 
-        $review = Review::find($this->id);
-
-        $review->update([
+        Review::find($this->id)->update([
             ...$reviewData,
             'status' => 'completed',
+        ]);
+    }
+
+    /**
+     * Handle a job failure.
+     */
+    public function failed(?Throwable $exception): void
+    {
+        Review::find($this->id)->update([
+            'status' => 'error',
         ]);
     }
 }

@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->longText('review');
+            $table->text('review');
             $table->integer('score');
             $table->string('title')->nullable();
             $table->string('cover_img')->nullable();
             $table->longText('description')->nullable();
             $table->text('authors')->nullable();
-            $table->text('work_id');
+            $table->tinyText('work_id');
             $table->enum('status', ['processing', 'completed', 'error'])->default('processing');
             $table->timestamps();
         });

@@ -41,14 +41,29 @@ class ReviewService
         return $reviewId;
     }
 
-    private function saveReviewRequest(array $reviewRequest): int
+    private function saveReviewRequest(array $validatedReview): int
     {
         $review = Review::create([
-            'work_id' => $reviewRequest['work_id'],
-            'review' => $reviewRequest['review'],
-            'score' => $reviewRequest['score'],
+            'work_id' => $validatedReview['work_id'],
+            'review' => $validatedReview['review'],
+            'score' => $validatedReview['score'],
         ]);
 
         return $review->id;
+    }
+
+    public function putRequest(array $validatedReview): Review
+    {
+        $review = Review::find($validatedReview['id']);
+        $review->update([
+            'work_id' => $validatedReview['work_id'],
+            'title' => $validatedReview['title'],
+            'description' => $validatedReview['description'],
+            'cover_img' => $validatedReview['cover_img'],
+            'authors' => $validatedReview['authors'],
+            'score' => $validatedReview['score'],
+        ]);
+
+        return $review->refresh();
     }
 }

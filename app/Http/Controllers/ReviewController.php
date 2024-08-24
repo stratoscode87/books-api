@@ -2,29 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ReviewGetRequest;
-use App\Http\Requests\ReviewPostRequest;
+use App\Http\Requests\Review\ReviewGetRequest;
+use App\Http\Requests\Review\ReviewPostRequest;
+use App\Http\Requests\Review\ReviewRequest;
 use App\Services\ReviewService;
 use Illuminate\Http\JsonResponse;
 
 class ReviewController extends Controller
 {
+    public function __construct(public ReviewService $service) {}
+
     /*
      * Get review by ID
      */
-    public function review(ReviewGetRequest $request, ReviewService $service): JsonResponse
+    public function review(ReviewGetRequest $request): JsonResponse
     {
-        $review = $service->getReview($request->id);
+        $review = $this->service->getReview($request->id);
 
-        return $service->getReviewResponse($review);
+        return $this->service->getReviewResponse($review);
     }
 
-    public function store(ReviewPostRequest $request, ReviewService $service): JsonResponse
+    public function store(ReviewPostRequest $request): JsonResponse
     {
-        $service->postReview($request->validated());
+        $this->service->postReview($request->validated());
 
         return response()->json([
             'status' => 'processing...',
+        ], 202);
+    }
+
+    public function put(ReviewRequest $request)
+    {
+        $review = $this->service->putRequest($request->validated());
+
+        return response()->json([
+            'data' => $review,
         ], 202);
     }
 }

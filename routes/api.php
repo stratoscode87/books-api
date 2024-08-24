@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,5 +26,6 @@ Route::get('/search', [\App\Http\Controllers\BooksController::class, 'search']);
 /*
  * Review routes
  */
-Route::get('/review/{id}', [\App\Http\Controllers\ReviewController::class, 'review']);
-Route::post('/review', [\App\Http\Controllers\ReviewController::class, 'store']);
+Route::get('/review/{id}', [ReviewController::class, 'review']);
+Route::post('/review', [ReviewController::class, 'store']);
+Route::put('/review/{id}', [ReviewController::class, 'put']);

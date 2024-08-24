@@ -29,19 +29,19 @@ class ReviewService
         };
     }
 
-    public function postReview(array $validatedReview): int
+    public function post(array $validatedReview): int
     {
         //Fetch data from Open Library and check if the work_id exists
         $response = $this->booksClient->fetchWork($validatedReview['work_id']);
         //Save request on DB if work_id exists
-        $reviewId = $this->saveReviewRequest($validatedReview);
+        $reviewId = $this->save($validatedReview);
         //Fetch and save full data
         ProcessReviewInfo::dispatch($reviewId, $response);
 
         return $reviewId;
     }
 
-    private function saveReviewRequest(array $validatedReview): int
+    private function save(array $validatedReview): int
     {
         $review = Review::create([
             'work_id' => $validatedReview['work_id'],
@@ -52,7 +52,7 @@ class ReviewService
         return $review->id;
     }
 
-    public function putRequest(array $validatedReview): Review
+    public function update(array $validatedReview): Review
     {
         $review = Review::find($validatedReview['id']);
         $review->update([

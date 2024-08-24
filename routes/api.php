@@ -30,3 +30,4 @@ Route::get('/search', [BooksController::class, 'search']);
 Route::get('/review/{id}', [ReviewController::class, 'review']);
 Route::post('/review', [ReviewController::class, 'store']);
 Route::put('/review/{id}', [ReviewController::class, 'update']);
+Route::delete('/review/{id}', [ReviewController::class, 'destroy']);

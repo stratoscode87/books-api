@@ -25,7 +25,7 @@ class ReviewController extends Controller
 
     public function store(ReviewPostRequest $request): JsonResponse
     {
-        $this->service->postReview($request->validated());
+        $this->service->post($request->validated());
 
         return response()->json([
             'status' => 'processing...',
@@ -34,10 +34,12 @@ class ReviewController extends Controller
 
     public function update(ReviewRequest $request)
     {
-        $review = $this->service->putRequest($request->validated());
+        $review = $this->service->update($request->validated());
 
         return response()->json([
             'data' => new ReviewResource($review),
         ]);
     }
+
+    public function destroy(ReviewRequest $request) {}
 }

@@ -9,6 +9,13 @@ Route::get('/welcome', function (Request $request) {
     ]);
 });
 
+/*
+ * Book routes
+ */
 Route::get('/search', [\App\Http\Controllers\BooksController::class, 'search']);
 
+/*
+ * Review routes
+ */
+Route::get('/review/{id}', [\App\Http\Controllers\ReviewController::class, 'review']);
 Route::post('/review', [\App\Http\Controllers\ReviewController::class, 'store']);

@@ -3,12 +3,31 @@
 namespace App\Services;
 
 use App\Clients\BooksClient\BooksClientInterface;
+use App\Enums\Review\ReviewStatus;
+use App\Http\Resources\ReviewResource;
 use App\Jobs\ProcessReviewInfo;
 use App\Models\Review;
+use Illuminate\Http\JsonResponse;
 
 class ReviewService
 {
-    public function __construct(private readonly BooksClientInterface $booksClient) {}
+    public function __construct(private BooksClientInterface $booksClient) {}
+
+    public function getReview(int $id): Review
+    {
+        return Review::find($id);
+    }
+
+    public function getReviewResponse(Review $review): JsonResponse
+    {
+        return match ($review->status) {
+            ReviewStatus::Processing->value => response()->json(['status' => 'processing...'], 202),
+            ReviewStatus::Completed->value => response()->json(['data' => new ReviewResource($review)]),
+            ReviewStatus::Error->value => response()->json([
+                'error' => 'Something went wrong updating the data',
+                'data' => new ReviewResource($review)]),
+        };
+    }
 
     public function postReview(array $validatedReview): int
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\API;
+namespace Feature\API\Review;
 
 use App\Clients\BooksClient\BooksClientInterface;
 use App\Clients\BooksClient\OpenLibraryClient\Exceptions\WorkNotFoundException;

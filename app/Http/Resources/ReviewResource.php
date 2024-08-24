@@ -19,7 +19,6 @@ class ReviewResource extends JsonResource
             'description' => $this->description,
             'authors' => $this->authors,
             'status' => $this->status,
-            'publishedAt' => $this->publishedAt,
         ];
     }
 }

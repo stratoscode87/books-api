@@ -13,7 +13,6 @@ class ReviewRequest extends FormRequest
             'cover_img' => ['required'],
             'description' => ['required'],
             'authors' => ['required'],
-            'publishedAt' => ['required', 'date'],
         ];
     }
 

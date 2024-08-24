@@ -32,7 +32,7 @@ class ReviewController extends Controller
         ], 202);
     }
 
-    public function put(ReviewRequest $request)
+    public function update(ReviewRequest $request)
     {
         $review = $this->service->putRequest($request->validated());
 

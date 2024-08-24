@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BooksController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserAuthController;
 use Illuminate\Http\Request;
@@ -21,11 +22,11 @@ Route::post('/logout', [UserAuthController::class, 'logout'])->middleware('auth:
 /*
  * Book routes
  */
-Route::get('/search', [\App\Http\Controllers\BooksController::class, 'search']);
+Route::get('/search', [BooksController::class, 'search']);
 
 /*
  * Review routes
  */
 Route::get('/review/{id}', [ReviewController::class, 'review']);
 Route::post('/review', [ReviewController::class, 'store']);
-Route::put('/review/{id}', [ReviewController::class, 'put']);
+Route::put('/review/{id}', [ReviewController::class, 'update']);

@@ -22,12 +22,21 @@ Route::post('/logout', [UserAuthController::class, 'logout'])->middleware('auth:
 /*
  * Book routes
  */
-Route::get('/search', [BooksController::class, 'search']);
+Route::group([
+    'middleware' => 'auth:sanctum',
+], function () {
+    Route::get('/search', [BooksController::class, 'search']);
+});
 
 /*
  * Review routes
  */
-Route::get('/review/{id}', [ReviewController::class, 'review']);
-Route::post('/review', [ReviewController::class, 'store']);
-Route::put('/review/{id}', [ReviewController::class, 'update']);
-Route::delete('/review/{id}', [ReviewController::class, 'destroy']);
+Route::group([
+    'prefix' => 'review',
+    'middleware' => 'auth:sanctum',
+], function () {
+    Route::get('/{id}', [ReviewController::class, 'review']);
+    Route::post('/', [ReviewController::class, 'store']);
+    Route::put('/{id}', [ReviewController::class, 'update']);
+    Route::delete('/{id}', [ReviewController::class, 'destroy']);
+});

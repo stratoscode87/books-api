@@ -34,6 +34,12 @@ RUN pecl install redis \
 && rm -rf /tmp/pear \
 && docker-php-ext-enable redis
 
+#Install Xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+COPY ./docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY ./docker/php/error_reporting.ini /usr/local/etc/php/conf.d/error_reporting.ini
+
 # Install Composer
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
@@ -59,14 +65,3 @@ USER $user
 
 # Run supervisor
 ENTRYPOINT ["/bin/sh", "/usr/local/bin/init.sh"]
-
-FROM base as dev
-
-USER root
-
-RUN pecl install xdebug && docker-php-ext-enable xdebug
-
-COPY ./docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-COPY ./docker/php/error_reporting.ini /usr/local/etc/php/conf.d/error_reporting.ini
-
-USER $user

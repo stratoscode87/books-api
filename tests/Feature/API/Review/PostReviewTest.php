@@ -65,7 +65,7 @@ class PostReviewTest extends TestCase
         ]);
     }
 
-    private function mockClientInterface()
+    private function mockClientInterface(): void
     {
         $this->mock(BooksClientInterface::class, function (MockInterface $mock) {
             $mock->shouldReceive('fetchWork')

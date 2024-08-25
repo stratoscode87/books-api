@@ -135,7 +135,7 @@ class OpenLibraryClient implements BooksClientInterface
     {
         $authorId = str_replace('/authors/', '', $authorId);
 
-        $endpoint = $this->origin.'authors/'.$authorId.'.json';
+        $endpoint = $this->origin.'/authors/'.$authorId.'.json';
 
         $response = $this->getRequest($endpoint);
 

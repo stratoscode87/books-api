@@ -17,7 +17,7 @@ class ReviewDataTest extends TestCase
         //Fake the result of Open Library author API
         $openLibraryResponse = ['name' => 'Irvine Welsh'];
         Http::fake([
-            $openLibraryClient->getUrl().'authors/*' => Http::response($openLibraryResponse, 200, ['Headers']),
+            $openLibraryClient->getUrl().'/authors/*' => Http::response($openLibraryResponse, 200, ['Headers']),
         ]);
         $name = $openLibraryClient->authorNameFromWorkAuthor('FAKEAUTHORID');
 
@@ -32,7 +32,7 @@ class ReviewDataTest extends TestCase
 
         //Fake Open Library author not found response
         Http::fake([
-            $openLibraryClient->getUrl().'authors/*' => Http::response(['error' => 'notfound'], 200, ['Headers']),
+            $openLibraryClient->getUrl().'/authors/*' => Http::response(['error' => 'notfound'], 200, ['Headers']),
         ]);
 
         $openLibraryClient->authorNameFromWorkAuthor('FAKEAUTHORID');

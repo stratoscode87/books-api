@@ -122,7 +122,7 @@ class OpenLibraryClient implements BooksClientInterface
         return implode(',', self::SEARCH_RESPONSE_FIELDS);
     }
 
-    private function coverUrlFromId(string $coverId, CoverSize $size): string
+    public function coverUrlFromId(string $coverId, CoverSize $size): string
     {
         return $this->coverOrigin."b/id/$coverId-$size->value.jpg";
     }
@@ -131,11 +131,11 @@ class OpenLibraryClient implements BooksClientInterface
      * @throws AuthorNotFoundException
      * @throws OpenLibraryNotReachableException
      */
-    private function authorNameFromWorkAuthor(string $authorId): string
+    public function authorNameFromWorkAuthor(string $authorId): string
     {
         $authorId = str_replace('/authors/', '', $authorId);
 
-        $endpoint = $this->origin.'/authors/'.$authorId.'.json';
+        $endpoint = $this->origin.'authors/'.$authorId.'.json';
 
         $response = $this->getRequest($endpoint);
 

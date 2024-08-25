@@ -4,6 +4,7 @@ namespace Feature\API\Review;
 
 use App\Clients\BooksClient\BooksClientInterface;
 use App\Clients\BooksClient\OpenLibraryClient\Exceptions\WorkNotFoundException;
+use App\Models\User;
 use App\Services\ReviewService\ReviewService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
@@ -27,6 +28,9 @@ class PostReviewTest extends TestCase
                 ], 200);
         });
 
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         $response = $this->postReview();
 
         $this->assertDatabaseCount('reviews', 1);
@@ -44,10 +48,14 @@ class PostReviewTest extends TestCase
 
     public function testWorkIdNotFound(): void
     {
-        $this->partialMock(ReviewService::class, function (MockInterface $mock) {
-            $mock->shouldReceive('postReview')->once()
+        $this->mock(ReviewService::class, function (MockInterface $mock) {
+            $mock->shouldReceive('post')->once()
                 ->andThrow(new WorkNotFoundException('Work ID not found.'));
         });
+
+        //Act
+        $user = User::factory()->create();
+        $this->actingAs($user);
 
         $response = $this->postReview();
 

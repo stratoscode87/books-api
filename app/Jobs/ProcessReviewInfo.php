@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Clients\BooksClient\BooksClientInterface;
 use App\Clients\BooksClient\Enums\CoverSize;
 use App\Models\Review;
+use App\Services\ReviewService\ReviewService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Throwable;
@@ -39,14 +40,11 @@ class ProcessReviewInfo implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(BooksClientInterface $booksClient): void
+    public function handle(BooksClientInterface $booksClient, ReviewService $service): void
     {
         $reviewData = $booksClient->reviewData($this->response, CoverSize::Medium);
 
-        Review::find($this->id)->update([
-            ...$reviewData,
-            'status' => 'completed',
-        ]);
+        $service->updateWithReviewData($this->id, $reviewData);
     }
 
     /**

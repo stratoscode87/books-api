@@ -4,6 +4,7 @@ namespace Feature\API\Review;
 
 use App\Clients\BooksClient\BooksClientInterface;
 use App\Clients\BooksClient\OpenLibraryClient\Exceptions\WorkNotFoundException;
+use App\Jobs\ProcessReviewInfo;
 use App\Models\User;
 use App\Services\ReviewService\ReviewService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,16 +21,7 @@ class PostReviewTest extends TestCase
     {
         Queue::fake();
 
-        $this->mock(BooksClientInterface::class, function (MockInterface $mock) {
-            $mock->shouldReceive('fetchWork')
-                ->once()
-                ->andReturn((object) [
-                    'status' => 'ok',
-                ], 200);
-        });
-
-        $user = User::factory()->create();
-        $this->actingAs($user);
+        $this->mockClientInterface();
 
         $response = $this->postReview();
 
@@ -46,16 +38,24 @@ class PostReviewTest extends TestCase
         ]);
     }
 
+    public function testDispatchProcessReview(): void
+    {
+        Queue::fake();
+
+        $this->mockClientInterface();
+
+        $this->postReview();
+
+        //Check if ProcessReviewInfo is dispatched
+        Queue::assertPushed(ProcessReviewInfo::class, 1);
+    }
+
     public function testWorkIdNotFound(): void
     {
         $this->mock(ReviewService::class, function (MockInterface $mock) {
             $mock->shouldReceive('post')->once()
                 ->andThrow(new WorkNotFoundException('Work ID not found.'));
         });
-
-        //Act
-        $user = User::factory()->create();
-        $this->actingAs($user);
 
         $response = $this->postReview();
 
@@ -65,8 +65,23 @@ class PostReviewTest extends TestCase
         ]);
     }
 
+    private function mockClientInterface()
+    {
+        $this->mock(BooksClientInterface::class, function (MockInterface $mock) {
+            $mock->shouldReceive('fetchWork')
+                ->once()
+                ->andReturn((object) [
+                    'status' => 'ok',
+                ], 200);
+        });
+    }
+
     private function postReview(string $workId = 'OL27448W', string $review = 'test', int $score = 6): TestResponse
     {
+        //Act
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         return $this->post('/api/review', [
             'work_id' => $workId,
             'review' => $review,

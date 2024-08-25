@@ -42,6 +42,14 @@ class ReviewService
         return $reviewId;
     }
 
+    public function updateWithReviewData(int $reviewId, array $reviewData): void
+    {
+        Review::find($reviewId)->update([
+            ...$reviewData,
+            'status' => 'completed',
+        ]);
+    }
+
     private function save(array $validatedReview): int
     {
         $review = Review::create([

@@ -124,7 +124,7 @@ class OpenLibraryClient implements BooksClientInterface
 
     public function coverUrlFromId(string $coverId, CoverSize $size): string
     {
-        return $this->coverOrigin."b/id/$coverId-$size->value.jpg";
+        return $this->coverOrigin."/b/id/$coverId-$size->value.jpg";
     }
 
     /**

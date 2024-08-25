@@ -12,8 +12,9 @@ class GetReviewTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testItReturnsTheCorrectReviewResponse()
+    public function testItReturnsDataWhenHasStatusCompleted()
     {
+        //Create a review with status completed (default state on the factory)
         $review = Review::factory()->create();
 
         $response = $this->getReview();
@@ -32,6 +33,16 @@ class GetReviewTest extends TestCase
                 'updated_at' => $review->updated_at,
             ],
         ]);
+    }
+
+    public function testItReturnsStatus202WhenReviewHasStatusInProgress()
+    {
+        //Create a review with status processing
+        $review = Review::factory()->create(['status' => 'processing']);
+
+        $response = $this->getReview();
+
+        $response->assertStatus(202);
     }
 
     private function getReview(): TestResponse

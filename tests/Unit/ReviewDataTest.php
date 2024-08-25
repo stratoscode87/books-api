@@ -13,6 +13,10 @@ class ReviewDataTest extends TestCase
 {
     public function testReviewDataMethodReturnsTheCorrectData(): void
     {
+        $authorsOpenLibraryObj = (object) [
+            (object) ['author' => (object) ['key' => 'FAKEAUTHOR1'],
+            ],
+        ];
         $expectedResult = [
             'title' => 'Trainspotting',
             'description' => 'Fake description',
@@ -34,9 +38,7 @@ class ReviewDataTest extends TestCase
             'title' => 'Trainspotting',
             'description' => 'Fake description',
             'covers' => ['FAKECOVERID1', 'FAKECOVERID2'],
-            'authors' => (object) [
-                (object) ['author' => (object) ['key' => 'FAKEAUTHOR1']],
-            ],
+            'authors' => $authorsOpenLibraryObj,
         ], CoverSize::Medium);
 
         $this->assertEquals([

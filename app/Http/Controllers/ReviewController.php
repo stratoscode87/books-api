@@ -49,8 +49,6 @@ class ReviewController extends Controller
     {
         $this->service->destroy($request->id);
 
-        return response()->json([
-            'message' => 'Review deleted',
-        ], 204);
+        return response()->json([], 204);
     }
 }

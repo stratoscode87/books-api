@@ -12,7 +12,7 @@ class PutReviewTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testBasic()
+    public function testItUpdatesAReviewCorrectly()
     {
         //Save a review
         $review = Review::factory()->create();
@@ -32,6 +32,9 @@ class PutReviewTest extends TestCase
         ];
 
         $response = $this->putReview($review->id, $body);
+
+        $this->assertDatabaseCount('reviews', 1);
+        $this->assertDatabaseHas('reviews', $body);
 
         $response->assertStatus(200);
         $response->assertJson([

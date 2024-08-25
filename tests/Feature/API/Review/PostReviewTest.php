@@ -4,7 +4,7 @@ namespace Feature\API\Review;
 
 use App\Clients\BooksClient\BooksClientInterface;
 use App\Clients\BooksClient\OpenLibraryClient\Exceptions\WorkNotFoundException;
-use App\Services\ReviewService;
+use App\Services\ReviewService\ReviewService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Testing\TestResponse;

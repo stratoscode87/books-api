@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\ReviewService;
 
 use App\Clients\BooksClient\BooksClientInterface;
 use App\Enums\Review\ReviewStatus;
 use App\Http\Resources\ReviewResource;
 use App\Jobs\ProcessReviewInfo;
 use App\Models\Review;
+use App\Services\ReviewService\Exceptions\ReviewNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 class ReviewService
@@ -52,9 +53,15 @@ class ReviewService
         return $review->id;
     }
 
+    /**
+     * @throws ReviewNotFoundException
+     */
     public function update(array $validatedReview): Review
     {
         $review = Review::find($validatedReview['id']);
+        if (empty($review)) {
+            throw new ReviewNotFoundException;
+        }
         $review->update([
             'work_id' => $validatedReview['work_id'],
             'title' => $validatedReview['title'],
@@ -65,5 +72,10 @@ class ReviewService
         ]);
 
         return $review->refresh();
+    }
+
+    public function destroy(int $id): void
+    {
+        Review::destroy($id);
     }
 }

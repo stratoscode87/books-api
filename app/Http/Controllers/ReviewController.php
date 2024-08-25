@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Review\ReviewGetRequest;
+use App\Http\Requests\Review\ReviewIdRequest;
 use App\Http\Requests\Review\ReviewPostRequest;
 use App\Http\Requests\Review\ReviewRequest;
 use App\Http\Resources\ReviewResource;
-use App\Services\ReviewService;
+use App\Services\ReviewService\Exceptions\ReviewNotFoundException;
+use App\Services\ReviewService\ReviewService;
 use Illuminate\Http\JsonResponse;
 
 class ReviewController extends Controller
@@ -16,7 +17,7 @@ class ReviewController extends Controller
     /*
      * Get review by ID
      */
-    public function review(ReviewGetRequest $request): JsonResponse
+    public function review(ReviewIdRequest $request): JsonResponse
     {
         $review = $this->service->getReview($request->id);
 
@@ -32,7 +33,10 @@ class ReviewController extends Controller
         ], 202);
     }
 
-    public function update(ReviewRequest $request)
+    /**
+     * @throws ReviewNotFoundException
+     */
+    public function update(ReviewRequest $request): JsonResponse
     {
         $review = $this->service->update($request->validated());
 
@@ -41,5 +45,12 @@ class ReviewController extends Controller
         ]);
     }
 
-    public function destroy(ReviewRequest $request) {}
+    public function destroy(ReviewIdRequest $request): JsonResponse
+    {
+        $this->service->destroy($request->id);
+
+        return response()->json([
+            'message' => 'Review deleted',
+        ]);
+    }
 }

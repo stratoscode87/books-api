@@ -4,7 +4,7 @@ namespace App\Http\Requests\Review;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReviewGetRequest extends FormRequest
+class ReviewIdRequest extends FormRequest
 {
     public function rules(): array
     {

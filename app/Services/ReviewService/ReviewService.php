@@ -73,6 +73,7 @@ class ReviewService
         $review->update([
             'work_id' => $validatedReview['work_id'],
             'title' => $validatedReview['title'],
+            'review' => $validatedReview['review'],
             'description' => $validatedReview['description'],
             'cover_img' => $validatedReview['cover_img'],
             'authors' => $validatedReview['authors'],

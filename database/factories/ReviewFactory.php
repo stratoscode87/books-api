@@ -18,7 +18,7 @@ class ReviewFactory extends Factory
             'description' => $this->faker->text(),
             'cover_img' => $this->faker->url(),
             'authors' => $this->faker->word(),
-            'score' => $this->faker->randomNumber(),
+            'score' => $this->faker->numberBetween(1, 10),
             'work_id' => 'FAKEWID',
             'status' => 'completed',
             'created_at' => Carbon::now(),

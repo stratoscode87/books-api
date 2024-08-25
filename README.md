@@ -138,6 +138,14 @@ Accept: application/json
 Authorization: Bearer {{token}}
 ```
 
+## Tests
+
+To run the tests executing the command
+
+```bash
+docker compose exec app php artisan test
+```
+
 ## Misc
 
 It will be appreciated if you want to implement a login system.

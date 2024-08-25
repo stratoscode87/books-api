@@ -140,7 +140,7 @@ Authorization: Bearer {{token}}
 
 ## Tests
 
-To run the tests executing the command
+You can run the tests executing
 
 ```bash
 docker compose exec app php artisan test

@@ -13,13 +13,16 @@ class ReviewFactory extends Factory
     public function definition(): array
     {
         return [
+            'title' => $this->faker->word(),
+            'review' => $this->faker->paragraph(),
+            'description' => $this->faker->text(),
+            'cover_img' => $this->faker->url(),
+            'authors' => $this->faker->word(),
+            'score' => $this->faker->randomNumber(),
+            'work_id' => 'FAKEWID',
+            'status' => 'completed',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'title' => $this->faker->word(),
-            'cover_img' => $this->faker->word(),
-            'description' => $this->faker->text(),
-            'authors' => $this->faker->word(),
-            'status' => $this->faker->word(),
         ];
     }
 }
